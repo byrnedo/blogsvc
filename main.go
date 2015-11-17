@@ -6,47 +6,28 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/byrnedo/apibase/db/mongo"
-	"os"
-	"strconv"
+	"github.com/byrnedo/apibase/env"
 )
-
-func GetEnvOr(key string, fallback string) string {
-	if val, found := os.LookupEnv(key); found {
-		return val
-	}
-	return fallback
-}
-
-func GetEnvOrInt(key string, fallback int) int {
-	if strVal, found := os.LookupEnv(key); found != false {
-		if val,err := strconv.Atoi(strVal); err != nil {
-			return val
-		} else {
-			panic("Failed to make int from ENV " + key + ": " + err.Error())
-		}
-	} else {
-		return fallback
-	}
-}
-
-
 
 func main() {
 
 	var (
 		host string
 		port int
+		err error
 	)
 
 	apibase.Init()
 
-	mongo.Init(GetEnvOr("MONGO_URL",apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
+	mongo.Init(env.GetOr("MONGO_URL",apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
 
 	http.HandleFunc("/api/v1/healthcheck", healthCheck)
 
 
 	host = apibase.Conf.GetDefaultString("http.host", "localhost")
-	port = GetEnvOrInt("PORT", apibase.Conf.GetDefaultInt("http.port", 9999))
+	if port,err = env.GetOrInt("PORT", apibase.Conf.GetDefaultInt("http.port", 9999)); err != nil {
+		panic(err.Error())
+	}
 
 	var listenAddr = fmt.Sprintf("%s:%d", host, port)
 	Info.Printf("listening on " + listenAddr)
