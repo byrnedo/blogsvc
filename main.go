@@ -20,14 +20,14 @@ func main() {
 
 	apibase.Init()
 
-	mongo.Init(env.GetOr("MONGO_URL",apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
+	mongo.Init(env.GetOr("MONGO_URL", apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
 
 	routers.InitMq(env.GetOr("NATS_URL", apibase.Conf.GetDefaultString("nats.url", "nats://localhost:4222")))
 
 	http.HandleFunc("/api/v1/healthcheck", healthCheck)
 
 	host = apibase.Conf.GetDefaultString("http.host", "localhost")
-	if port,err = env.GetOrInt("PORT", apibase.Conf.GetDefaultInt("http.port", 9999)); err != nil {
+	if port, err = env.GetOrInt("PORT", apibase.Conf.GetDefaultInt("http.port", 9999)); err != nil {
 		panic(err.Error())
 	}
 

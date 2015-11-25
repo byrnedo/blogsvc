@@ -1,7 +1,7 @@
 package mq
 import (
 	r "github.com/byrnedo/apibase/routes"
-"github.com/apcera/nats"
+	"github.com/apcera/nats"
 )
 
 type HealthcheckController struct {
@@ -9,11 +9,11 @@ type HealthcheckController struct {
 	encCon *nats.EncodedConn
 }
 
-func(c *HealthcheckController) GetRoutes() []*r.NatsRoute {
+func (c *HealthcheckController) GetRoutes() []*r.NatsRoute {
 	return c.routes
 }
 
-func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController){
+func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController) {
 	hc = &HealthcheckController{}
 	hc.encCon = nc
 	hc.routes = []*r.NatsRoute{
@@ -22,8 +22,8 @@ func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController){
 	return
 }
 
-func (c *HealthcheckController) Healthcheck(m *nats.Msg){
-	c.encCon.Publish(m.Reply, "UP")
+func (c *HealthcheckController) Healthcheck(m *nats.Msg) {
+	c.encCon.Publish(m.Reply, "up up up")
 }
 
 
