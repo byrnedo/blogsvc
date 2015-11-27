@@ -5,9 +5,14 @@ import (
 	"gopkg.in/bluesuncorp/validator.v8"
 )
 
+type NewPost struct {
+	Post
+	ID string `validate:"required"`
+}
+
 type Post struct {
 	ID string
-	Title string
+	Title string `validate:"required"`
 	Slug string
 	Body string
 	AuthorID string
@@ -16,6 +21,10 @@ type Post struct {
 	UpdateTime time.Time
 }
 
-func (p *Post) Validate() map[string]*validator.FieldError {
-	return V.Struct(p)
+func (p *NewPost) Validate() map[string]*validator.FieldError {
+	return ValidateStruct(p)
 }
+func (p *Post) Validate() map[string]*validator.FieldError {
+	return ValidateStruct(p)
+}
+

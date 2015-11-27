@@ -16,6 +16,6 @@ type User struct {
 }
 
 func (u *User) Validate() map[string]*validator.FieldError {
-	return V.Struct(u)
+	return V.Struct(u).(validator.ValidationErrors)
 }
 

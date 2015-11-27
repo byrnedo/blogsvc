@@ -26,9 +26,9 @@ func InitMq(url string) {
 	SubscribeRoutes(natsCon, mq.NewPostsController(natsCon.EncCon))
 }
 
-func SubscribeRoutes(opts *natsio.Nats, con controllers.NatsController) {
-	for _, route := range con.GetRoutes() {
+func SubscribeRoutes(natsCon *natsio.Nats, controllers controllers.NatsController) {
+	for _, route := range controllers.GetRoutes() {
 		Info.Printf("Subscribing handler for route %s\n", route.GetPath())
-		opts.HandleFunc(route.GetPath(), route.GetHandler())
+		natsCon.QueueSubscribe(route.GetPath(), "blog_svc_worker", route.GetHandler())
 	}
 }
