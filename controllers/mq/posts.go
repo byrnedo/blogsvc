@@ -14,11 +14,11 @@ func (c *PostsController) GetRoutes() []*r.NatsRoute {
 	return c.routes
 }
 
-func NewPostsController(nc *nats.EncodedConn) (hc *PostsController) {
-	hc = &PostsController{}
-	hc.encCon = nc
-	hc.routes = []*r.NatsRoute{
-		r.NewNatsRoute("blog.posts.list", hc.List),
+func NewPostsController(nc *nats.EncodedConn) (pC *PostsController) {
+	pC = &PostsController{}
+	pC.encCon = nc
+	pC.routes = []*r.NatsRoute{
+		r.NewNatsRoute("blog.posts.list", pC.List),
 	}
 	return
 }

@@ -24,7 +24,7 @@ func main() {
 
 	routers.InitMq(env.GetOr("NATS_URL", apibase.Conf.GetDefaultString("nats.url", "nats://localhost:4222")))
 
-	http.HandleFunc("/api/v1/healthcheck", healthCheck)
+	webRouter := routers.InitWeb()
 
 	host = apibase.Conf.GetDefaultString("http.host", "localhost")
 	if port, err = env.GetOrInt("PORT", apibase.Conf.GetDefaultInt("http.port", 9999)); err != nil {
@@ -33,7 +33,7 @@ func main() {
 
 	var listenAddr = fmt.Sprintf("%s:%d", host, port)
 	Info.Printf("listening on " + listenAddr)
-	http.ListenAndServe(listenAddr, nil)
+	http.ListenAndServe(listenAddr, webRouter)
 }
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
