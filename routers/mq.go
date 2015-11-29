@@ -4,7 +4,6 @@ import (
 	"github.com/byrnedo/apibase/natsio"
 	"github.com/byrnedo/blogsvc/controllers/mq"
 	"github.com/byrnedo/apibase/controllers"
-	. "github.com/byrnedo/apibase/logger"
 )
 
 func InitMq(url string) {
@@ -22,13 +21,7 @@ func InitMq(url string) {
 		panic("Failed to connect to nats:" + err.Error())
 	}
 
-	SubscribeRoutes(natsCon, mq.NewHealthcheckController(natsCon.EncCon))
-	SubscribeRoutes(natsCon, mq.NewPostsController(natsCon.EncCon))
+	controllers.SubscribeNatsRoutes(natsCon, mq.NewHealthcheckController(natsCon.EncCon))
+	controllers.SubscribeNatsRoutes(natsCon, mq.NewPostsController(natsCon.EncCon))
 }
 
-func SubscribeRoutes(natsCon *natsio.Nats, controllers controllers.NatsController) {
-	for _, route := range controllers.GetRoutes() {
-		Info.Printf("Subscribing handler for route %s\n", route.GetPath())
-		natsCon.QueueSubscribe(route.GetPath(), "blog_svc_worker", route.GetHandler())
-	}
-}

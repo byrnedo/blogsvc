@@ -5,9 +5,9 @@ import (
 	"github.com/byrnedo/apibase"
 	"net/http"
 	"fmt"
-	"github.com/byrnedo/apibase/db/mongo"
 	"github.com/byrnedo/apibase/env"
 	"github.com/byrnedo/blogsvc/routers"
+	"github.com/byrnedo/apibase/db/postgres"
 )
 
 func main() {
@@ -20,7 +20,14 @@ func main() {
 
 	apibase.Init()
 
-	mongo.Init(env.GetOr("MONGO_URL", apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
+	//mongo.Init(env.GetOr("MONGO_URL", apibase.Conf.GetDefaultString("mongo.url", "")), Trace)
+	postgres.Init(func(c *postgres.Config){
+		var psqlCon string
+		if psqlCon, err = apibase.Conf.GetString("postgres.connect-string"); err != nil {
+			panic("Failed to connect to postgres:" + err.Error())
+		}
+		c.ConnectString = env.GetOr("POSTGRES_CON_STRING", psqlCon )
+	})
 
 	routers.InitMq(env.GetOr("NATS_URL", apibase.Conf.GetDefaultString("nats.url", "nats://localhost:4222")))
 
