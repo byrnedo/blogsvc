@@ -29,6 +29,8 @@ func main() {
 		c.ConnectString = env.GetOr("POSTGRES_CON_STRING", psqlCon )
 	})
 
+	postgres.Migrate(apibase.Conf.GetDefaultString("postgres.migrations", "./conf/migrations"))
+
 	routers.InitMq(env.GetOr("NATS_URL", apibase.Conf.GetDefaultString("nats.url", "nats://localhost:4222")))
 
 	webRouter := routers.InitWeb()
