@@ -1,7 +1,8 @@
-package mq
+package mqcontrollers
+
 import (
-	r "github.com/byrnedo/apibase/routes"
 	"github.com/apcera/nats"
+	r "github.com/byrnedo/apibase/routes"
 )
 
 type HealthcheckController struct {
@@ -25,6 +26,3 @@ func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController) 
 func (c *HealthcheckController) Healthcheck(m *nats.Msg) {
 	c.encCon.Publish(m.Reply, "up up up")
 }
-
-
-

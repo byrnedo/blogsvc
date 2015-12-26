@@ -1,8 +1,8 @@
-package mq
+package mqcontrollers
 
 import (
-	r "github.com/byrnedo/apibase/routes"
 	"github.com/apcera/nats"
+	r "github.com/byrnedo/apibase/routes"
 )
 
 type PostsController struct {
