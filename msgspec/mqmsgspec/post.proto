@@ -1,0 +1,12 @@
+package mqmsgspec;
+
+import "github.com/byrnedo/apibase/natsio/protobuf/nats.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+message InnerGetPostsRequest {
+    optional protobuf.NatsContext context = 1;
+}
+message InnerGetPostsResponse {
+    optional protobuf.NatsContext context = 1;
+    optional string error = 2;
+}
