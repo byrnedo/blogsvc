@@ -2,13 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/byrnedo/apibase"
 	"github.com/byrnedo/apibase/config"
-	"github.com/byrnedo/apibase/db/postgres"
-	"github.com/byrnedo/apibase/env"
 	"github.com/byrnedo/apibase/helpers/envhelp"
+	_ "github.com/byrnedo/apibase/natsio/defaultnats"
+	_ "github.com/byrnedo/apibase/db/mongo/defaultmongo"
 	. "github.com/byrnedo/apibase/logger"
-	"github.com/byrnedo/blogsvc/routers"
 	"net/http"
 )
 
