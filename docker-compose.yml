@@ -1,12 +1,10 @@
-postgres:
-    image: "postgres:9.4"
+mongo:
+    image: "mongo:latest"
     ports:
-        - "5432:5432"
-    environment:
-        - "POSTGRES_PASSWORD=postgres"
+        - "27017:27017"
 
 nats:
-    image: nats
+    image: "nats:latest"
     ports:
         - "4222:4222"
     command: --debug --logtime
