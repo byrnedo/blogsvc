@@ -1,7 +1,6 @@
 package daos
 
 import (
-	. "github.com/byrnedo/apibase/logger"
 	"github.com/byrnedo/blogsvc/models"
 	"github.com/byrnedo/blogsvc/msgspec/webmsgspec"
 	"gopkg.in/mgo.v2"

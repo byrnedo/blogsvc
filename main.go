@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"github.com/byrnedo/apibase/config"
 	"github.com/byrnedo/apibase/helpers/envhelp"
-	_ "github.com/byrnedo/apibase/natsio/defaultnats"
-	_ "github.com/byrnedo/apibase/db/mongo/defaultmongo"
 	. "github.com/byrnedo/apibase/logger"
+	_ "github.com/byrnedo/blogsvc/routers"
 	"net/http"
 )
 

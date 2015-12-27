@@ -31,7 +31,7 @@ func NewPostsController() *PostsController {
 
 func (pC *PostsController) GetRoutes() []*routes.WebRoute {
 	return []*routes.WebRoute{
-		routes.NewWebRoute("NewPost", "/v1/posts/:postId", routes.POST, pC.Create),
+		routes.NewWebRoute("NewPost", "/v1/posts", routes.POST, pC.Create),
 		routes.NewWebRoute("ReplacePost", "/v1/posts/:postId", routes.PUT, pC.Replace),
 		routes.NewWebRoute("GetPost", "/v1/posts/:postId", routes.GET, pC.GetOne),
 		routes.NewWebRoute("GetPosts", "/v1/posts", routes.GET, pC.List),

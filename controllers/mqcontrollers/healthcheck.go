@@ -3,20 +3,21 @@ package mqcontrollers
 import (
 	"github.com/apcera/nats"
 	r "github.com/byrnedo/apibase/routes"
+	"github.com/byrnedo/apibase/natsio"
 )
 
 type HealthcheckController struct {
 	routes []*r.NatsRoute
-	encCon *nats.EncodedConn
+	natsCon *natsio.Nats
 }
 
 func (c *HealthcheckController) GetRoutes() []*r.NatsRoute {
 	return c.routes
 }
 
-func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController) {
+func NewHealthcheckController(nc *natsio.Nats) (hc *HealthcheckController) {
 	hc = &HealthcheckController{}
-	hc.encCon = nc
+	hc.natsCon = nc
 	hc.routes = []*r.NatsRoute{
 		r.NewNatsRoute("blog.healthcheck", hc.Healthcheck),
 	}
@@ -24,5 +25,5 @@ func NewHealthcheckController(nc *nats.EncodedConn) (hc *HealthcheckController) 
 }
 
 func (c *HealthcheckController) Healthcheck(m *nats.Msg) {
-	c.encCon.Publish(m.Reply, "up up up")
+	c.natsCon.EncCon.Publish(m.Reply, "up up up")
 }

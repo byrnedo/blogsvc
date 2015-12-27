@@ -3,11 +3,12 @@ package mqcontrollers
 import (
 	"github.com/apcera/nats"
 	r "github.com/byrnedo/apibase/routes"
+	"github.com/byrnedo/apibase/natsio"
 )
 
 type PostsController struct {
-	routes []*r.NatsRoute
-	encCon *nats.EncodedConn
+	routes  []*r.NatsRoute
+	natsCon *natsio.Nats
 }
 
 func (c *PostsController) GetRoutes() []*r.NatsRoute {
@@ -16,12 +17,12 @@ func (c *PostsController) GetRoutes() []*r.NatsRoute {
 	}
 }
 
-func NewPostsController(nc *nats.EncodedConn) (pC *PostsController) {
+func NewPostsController(nc *natsio.Nats) (pC *PostsController) {
 	pC = &PostsController{}
-	pC.encCon = nc
+	pC.natsCon = nc
 	return
 }
 
 func (c *PostsController) List(m *nats.Msg) {
-	c.encCon.Publish(m.Reply, "Not implemented")
+	c.natsCon.EncCon.Publish(m.Reply, "Not implemented")
 }
