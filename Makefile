@@ -9,7 +9,10 @@ buildgo:
 builddocker: buildgo
 	docker build -t byrnedo/blogsvc .
 
-run: builddocker
+dev-env:
+	(cd ./_environments/ && capitan -d up)
+
+run: builddocker dev-env
 	    docker run \
 			-p 8080:80 byrnedo/blogsvc
 
