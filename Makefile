@@ -10,9 +10,10 @@ builddocker: buildgo
 	docker build -t byrnedo/blogsvc .
 
 dev-env:
+	docker rm -f dev_consul dev_registrator
 	(cd ./_environments/ && capitan -d up)
 
-run: builddocker dev-env
+run: dev-env
 	    docker run \
 			-p 8080:80 byrnedo/blogsvc
 
